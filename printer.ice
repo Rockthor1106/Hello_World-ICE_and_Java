@@ -4,6 +4,6 @@ module Demo
     {
        	string printString(string s);
 
-       	string fibonacci(int value, string host);
+       	long fibonacci(int pos, string host);
     }
 }

@@ -1,4 +1,4 @@
-import java.math.BigInteger;
+import com.zeroc.Ice.Current;
 
 public class PrinterI implements Demo.Printer
 {       
@@ -11,30 +11,15 @@ public class PrinterI implements Demo.Printer
 	} catch (Exception e) {
 		System.out.println(msg); //When the message is not a number this prints the same line
 	}
-        return fibonacci(pos, host, current);
+        for (int i = 1; i<=pos; i++) {
+            System.out.println(host + ":" + fibonacci(i, host, current));
+        }
+        return Long.toString(fibonacci(pos, host, current));
     }
 
-    public String fibonacci(int pos, String host, com.zeroc.Ice.Current current) {
-
-		if (pos <= 1) {
-            return Integer.toString(pos);
-        }
-        
-        long fib = 1;
-        long prevFib = 1;
-
-		System.out.println(fib);
-		System.out.println(prevFib);
-        
-        for (int i = 2; i < pos; i++) {
-            long temp = fib;
-            fib += prevFib;
-            prevFib = temp;
-			System.out.println(fib);
-        }
-
-		System.out.println();
-
-	return Long.toString(fib);
+    @Override
+    public long fibonacci(int pos, String host, Current current) {
+        if (pos < 2) return pos;
+        return fibonacci(pos - 1, host, current) + fibonacci(pos - 2, host, current);
     }
 }
