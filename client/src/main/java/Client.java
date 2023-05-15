@@ -16,18 +16,22 @@ public class Client
             //printer.printString("Hello World!");
 
             Scanner sc = new Scanner(System.in);
+            int counter = 1;
 
             while(true) {
+                counter++;
                 System.out.println("Ingresa tu mensaje: ");
+                //String entry = Integer.toString(counter);
                 String entry = sc.nextLine();
-		if(entry.equalsIgnoreCase("exit")) {
-			break;
-		}
-  		try {
-                	System.out.println(printer.printString(entry+":"+ InetAddress.getLocalHost().getHostName()));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+                //System.out.println(entry);
+		        if(entry.equalsIgnoreCase("exit")) {
+			        break;
+		        }
+  		        try {
+                System.out.println(printer.printString(entry+":"+ InetAddress.getLocalHost().getHostName()));
+                }catch (Exception e) {
+                    System.out.println(e);
+                }
             }
 		sc.close();
         }

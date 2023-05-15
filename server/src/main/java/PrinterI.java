@@ -1,5 +1,4 @@
 import java.math.BigInteger;
-import java.math.BigDecimal;
 
 public class PrinterI implements Demo.Printer
 {       
@@ -17,19 +16,25 @@ public class PrinterI implements Demo.Printer
 
     public String fibonacci(int pos, String host, com.zeroc.Ice.Current current) {
 
-		BigInteger[] fibo = new BigInteger[pos + 1];
-        
-    
-        fibo[0] = BigInteger.ZERO;
-        fibo[1] = BigInteger.ONE;
-        for (int i = 2; i <= pos; i++) {
-            fibo[i] = fibo[i - 1].add(fibo[i - 2]);
-			
-			System.out.println(fibo[i - 1].add(fibo[i - 2]));
+		if (pos <= 1) {
+            return Integer.toString(pos);
         }
-		BigInteger requestedPos = fibo[pos];
+        
+        long fib = 1;
+        long prevFib = 1;
+
+		System.out.println(fib);
+		System.out.println(prevFib);
+        
+        for (int i = 2; i < pos; i++) {
+            long temp = fib;
+            fib += prevFib;
+            prevFib = temp;
+			System.out.println(fib);
+        }
+
 		System.out.println();
 
-	return requestedPos.toString();
+	return Long.toString(fib);
     }
 }
