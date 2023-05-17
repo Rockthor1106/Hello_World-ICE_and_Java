@@ -19,6 +19,8 @@ public class Client
             Demo.ChatManagerPrx chatManagerPrx = Demo.ChatManagerPrx
                     .checkedCast(communicator.propertyToProxy("ChatManager.Proxy"));
 
+            Scanner sc = new Scanner(System.in);
+
             try {
 
                 CallbackImp callbackImp = new CallbackImp(chatManagerPrx);
@@ -30,9 +32,24 @@ public class Client
                 chatManagerPrx.subscribe(prx);
 
                 String hostname = Inet4Address.getLocalHost().getHostName();
-                System.out.println("hostname: " + hostname);
 
-                chatManagerPrx.sendMessage(hostname + ": Hello World");
+                //------------Custom message from user---------------
+                while(true) {
+                    System.out.println("Ingresa tu mensaje: ");
+                    String entry = sc.nextLine(); 
+    
+                    if(entry.equalsIgnoreCase("exit")) {
+                        break;
+                    }
+
+                    try {
+                        chatManagerPrx.sendMessage(entry + " : " + hostname);
+                    }catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+                sc.close();
+                //--------------------------------------------------
                 MessageRec ms = new MessageRec();
                 ms.reciveMessage("Hello Callback");
 
