@@ -1,5 +1,13 @@
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.Scanner;
+
+import com.zeroc.Ice.ObjectAdapter;
+import com.zeroc.Ice.ObjectPrx;
+import com.zeroc.Ice.Util;
+
+import Demo.CallbackPrx;
+import Demo.ChatManagerPrx;
 
 public class Client
 {
@@ -7,7 +15,35 @@ public class Client
     {
         try(com.zeroc.Ice.Communicator communicator = com.zeroc.Ice.Util.initialize(args, "client.cfg"))
         {
-            com.zeroc.Ice.ObjectPrx base = communicator.propertyToProxy("Service.Proxy");
+
+            Demo.ChatManagerPrx chatManagerPrx = Demo.ChatManagerPrx
+                    .checkedCast(communicator.propertyToProxy("ChatManager.Proxy"));
+
+            try {
+
+                CallbackImp callbackImp = new CallbackImp(chatManagerPrx);
+                ObjectAdapter adapter = communicator.createObjectAdapter("Callback");
+                ObjectPrx objectPrx = objectPrx = adapter.add(callbackImp, Util.stringToIdentity("Callback"));
+                adapter.activate();        
+                
+                CallbackPrx prx = CallbackPrx.uncheckedCast(objectPrx);
+                chatManagerPrx.subscribe(prx);
+
+                String hostname = Inet4Address.getLocalHost().getHostName();
+                System.out.println("hostname: " + hostname);
+
+                chatManagerPrx.sendMessage(hostname + ": Hello World");
+                MessageRec ms = new MessageRec();
+                ms.reciveMessage("Hello Callback");
+
+            } catch (Exception e) {
+                // saveMessage(dest,)
+                e.printStackTrace();
+            }
+
+
+
+            /* com.zeroc.Ice.ObjectPrx base = communicator.propertyToProxy("Service.Proxy");
             Demo.PrinterPrx printer = Demo.PrinterPrx.checkedCast(base);
             if(printer == null)
             {
@@ -33,7 +69,9 @@ public class Client
                     System.out.println(e);
                 }
             }
-		sc.close();
+		sc.close(); */
+
+        //-------------------------------------------------------------
         }
     }
 
