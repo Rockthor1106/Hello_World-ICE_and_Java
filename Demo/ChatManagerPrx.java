@@ -126,46 +126,6 @@ public interface ChatManagerPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
-    default String printCalculateFibonacci(String s)
-    {
-        return printCalculateFibonacci(s, com.zeroc.Ice.ObjectPrx.noExplicitContext);
-    }
-
-    default String printCalculateFibonacci(String s, java.util.Map<String, String> context)
-    {
-        return _iceI_printCalculateFibonacciAsync(s, context, true).waitForResponse();
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.String> printCalculateFibonacciAsync(String s)
-    {
-        return _iceI_printCalculateFibonacciAsync(s, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.String> printCalculateFibonacciAsync(String s, java.util.Map<String, String> context)
-    {
-        return _iceI_printCalculateFibonacciAsync(s, context, false);
-    }
-
-    /**
-     * @hidden
-     * @param iceP_s -
-     * @param context -
-     * @param sync -
-     * @return -
-     **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.String> _iceI_printCalculateFibonacciAsync(String iceP_s, java.util.Map<String, String> context, boolean sync)
-    {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "printCalculateFibonacci", null, sync, null);
-        f.invoke(true, context, null, ostr -> {
-                     ostr.writeString(iceP_s);
-                 }, istr -> {
-                     String ret;
-                     ret = istr.readString();
-                     return ret;
-                 });
-        return f;
-    }
-
     default long fibonacci(int pos, String host)
     {
         return fibonacci(pos, host, com.zeroc.Ice.ObjectPrx.noExplicitContext);

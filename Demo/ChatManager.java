@@ -23,8 +23,6 @@ public interface ChatManager extends com.zeroc.Ice.Object
 
     void sendMessage(String msg, com.zeroc.Ice.Current current);
 
-    String printCalculateFibonacci(String s, com.zeroc.Ice.Current current);
-
     long fibonacci(int pos, String host, com.zeroc.Ice.Current current);
 
     /** @hidden */
@@ -112,27 +110,6 @@ public interface ChatManager extends com.zeroc.Ice.Object
      * @param current -
      * @return -
     **/
-    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_printCalculateFibonacci(ChatManager obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
-    {
-        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
-        com.zeroc.Ice.InputStream istr = inS.startReadParams();
-        String iceP_s;
-        iceP_s = istr.readString();
-        inS.endReadParams();
-        String ret = obj.printCalculateFibonacci(iceP_s, current);
-        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeString(ret);
-        inS.endWriteParams(ostr);
-        return inS.setResult(ostr);
-    }
-
-    /**
-     * @hidden
-     * @param obj -
-     * @param inS -
-     * @param current -
-     * @return -
-    **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_fibonacci(ChatManager obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
@@ -158,7 +135,6 @@ public interface ChatManager extends com.zeroc.Ice.Object
         "ice_ids",
         "ice_isA",
         "ice_ping",
-        "printCalculateFibonacci",
         "sendMessage",
         "subscribe"
     };
@@ -202,13 +178,9 @@ public interface ChatManager extends com.zeroc.Ice.Object
             }
             case 6:
             {
-                return _iceD_printCalculateFibonacci(this, in, current);
-            }
-            case 7:
-            {
                 return _iceD_sendMessage(this, in, current);
             }
-            case 8:
+            case 7:
             {
                 return _iceD_subscribe(this, in, current);
             }

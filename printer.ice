@@ -23,8 +23,6 @@ module Demo
 
         void sendMessage(string msg);
 
-        string printCalculateFibonacci(string s);
-
        	long fibonacci(int pos, string host);
     }
 }
