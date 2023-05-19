@@ -6,6 +6,8 @@ module Demo
         void notifyCallback();
 
         void printResultFibo(string response);
+
+        void printHostnamesList(string hosts);
     }
     
     interface ChatManager{

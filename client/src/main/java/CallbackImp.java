@@ -22,12 +22,16 @@ public class CallbackImp implements Demo.Callback {
     }
 
 
-    //This message is to print the result of the fibonacci serie from the server
+    //This method is to print the result of the fibonacci serie from the server
     @Override
     public void printResultFibo(String response, Current current) {
         System.out.println("Your fibo: " + response);
     }
 
-
+    //This method is to print the list of hostnames from the server
+    @Override
+    public void printHostnamesList(String hosts, Current current) {
+        System.out.println("Hosts: " + hosts);
+    }
 
 }

@@ -21,6 +21,8 @@ public interface Callback extends com.zeroc.Ice.Object
 
     void printResultFibo(String response, com.zeroc.Ice.Current current);
 
+    void printHostnamesList(String hosts, com.zeroc.Ice.Current current);
+
     /** @hidden */
     static final String[] _iceIds =
     {
@@ -78,6 +80,24 @@ public interface Callback extends com.zeroc.Ice.Object
         return inS.setResult(inS.writeEmptyParams());
     }
 
+    /**
+     * @hidden
+     * @param obj -
+     * @param inS -
+     * @param current -
+     * @return -
+    **/
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_printHostnamesList(Callback obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    {
+        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        com.zeroc.Ice.InputStream istr = inS.startReadParams();
+        String iceP_hosts;
+        iceP_hosts = istr.readString();
+        inS.endReadParams();
+        obj.printHostnamesList(iceP_hosts, current);
+        return inS.setResult(inS.writeEmptyParams());
+    }
+
     /** @hidden */
     final static String[] _iceOps =
     {
@@ -86,6 +106,7 @@ public interface Callback extends com.zeroc.Ice.Object
         "ice_isA",
         "ice_ping",
         "notifyCallback",
+        "printHostnamesList",
         "printResultFibo"
     };
 
@@ -123,6 +144,10 @@ public interface Callback extends com.zeroc.Ice.Object
                 return _iceD_notifyCallback(this, in, current);
             }
             case 5:
+            {
+                return _iceD_printHostnamesList(this, in, current);
+            }
+            case 6:
             {
                 return _iceD_printResultFibo(this, in, current);
             }

@@ -40,8 +40,23 @@ public class ChatManagerImp implements Demo.ChatManager {
         new Thread(() -> {
             String host = msg.split(":")[0]; //This line gets the hostname form the message sent by the client
             
-            if (!hosts.contains(host)) {hosts.add(host);}
+            if (!hosts.contains(host)) {hosts.add(host);} //This line adds the client hostname to the list of hostnames
+            
+            //------------------Validations for the message------------------
+            String listClients = "list clients";
+            String sendTo = "to X:";
+            String broadcast = "BC";
 
+            if (msg.startsWith(listClients)) {
+                toListHosts(callbackPrx);
+            }
+            else if (msg.startsWith(sendTo)) {
+
+            }
+            else if(msg.startsWith(broadcast)) {
+
+            }
+            //----------------------------------------------------------------
             int pos = 0;
             try {
                 pos = Integer.valueOf(msg.split(":")[1]);
@@ -63,4 +78,12 @@ public class ChatManagerImp implements Demo.ChatManager {
         return fibonacci(pos - 1, host, current) + fibonacci(pos - 2, host, current);
     }
     //-------------------------------------------------------------------
+
+    public void toListHosts(CallbackPrx callbackPrx) {
+        String hostsList = "";
+        for (String host : hosts) {
+            hostsList += host + ", ";
+        }
+        callbackPrx.printHostnamesList(hostsList);
+    }
 }

@@ -86,6 +86,42 @@ public interface CallbackPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
+    default void printHostnamesList(String hosts)
+    {
+        printHostnamesList(hosts, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default void printHostnamesList(String hosts, java.util.Map<String, String> context)
+    {
+        _iceI_printHostnamesListAsync(hosts, context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> printHostnamesListAsync(String hosts)
+    {
+        return _iceI_printHostnamesListAsync(hosts, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> printHostnamesListAsync(String hosts, java.util.Map<String, String> context)
+    {
+        return _iceI_printHostnamesListAsync(hosts, context, false);
+    }
+
+    /**
+     * @hidden
+     * @param iceP_hosts -
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_printHostnamesListAsync(String iceP_hosts, java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "printHostnamesList", null, sync, null);
+        f.invoke(false, context, null, ostr -> {
+                     ostr.writeString(iceP_hosts);
+                 }, null);
+        return f;
+    }
+
     /**
      * Contacts the remote server to verify that the object implements this type.
      * Raises a local exception if a communication error occurs.
