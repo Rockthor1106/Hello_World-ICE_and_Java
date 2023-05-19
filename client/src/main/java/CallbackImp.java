@@ -25,7 +25,7 @@ public class CallbackImp implements Demo.Callback {
     //This message is to print the result of the fibonacci serie from the server
     @Override
     public void printResultFibo(String response, Current current) {
-        System.out.println(response);
+        System.out.println("Your fibo: " + response);
     }
 
 
