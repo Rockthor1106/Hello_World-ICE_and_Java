@@ -1,12 +1,9 @@
 <state>
-  <timestamp value='1684507563970' />
+  <timestamp value='1684507739138' />
   <sourceSet name='default'>
     <source name='C:\Users\Carvi\Documents\VS WorkSpace\Hello_World-ICE_and_Java\printer.ice'>
-      <file name='C:\Users\Carvi\Documents\VS WorkSpace\Hello_World-ICE_and_Java\client\build\generated-src\Demo\Printer.java' />
       <file name='C:\Users\Carvi\Documents\VS WorkSpace\Hello_World-ICE_and_Java\client\build\generated-src\Demo\Callback.java' />
       <file name='C:\Users\Carvi\Documents\VS WorkSpace\Hello_World-ICE_and_Java\client\build\generated-src\Demo\ChatManager.java' />
-      <file name='C:\Users\Carvi\Documents\VS WorkSpace\Hello_World-ICE_and_Java\client\build\generated-src\Demo\PrinterPrx.java' />
-      <file name='C:\Users\Carvi\Documents\VS WorkSpace\Hello_World-ICE_and_Java\client\build\generated-src\Demo\_PrinterPrxI.java' />
       <file name='C:\Users\Carvi\Documents\VS WorkSpace\Hello_World-ICE_and_Java\client\build\generated-src\Demo\CallbackPrx.java' />
       <file name='C:\Users\Carvi\Documents\VS WorkSpace\Hello_World-ICE_and_Java\client\build\generated-src\Demo\_CallbackPrxI.java' />
       <file name='C:\Users\Carvi\Documents\VS WorkSpace\Hello_World-ICE_and_Java\client\build\generated-src\Demo\ChatManagerPrx.java' />
