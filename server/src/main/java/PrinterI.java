@@ -17,6 +17,7 @@ public class PrinterI implements Demo.Printer
         return Long.toString(fibonacci(pos, host, current));
     }
 
+    //This method calculates the serie of fibonacci until pos and returns the calculated fibonacci at position pos
     @Override
     public long fibonacci(int pos, String host, Current current) {
         if (pos < 2) return pos;
