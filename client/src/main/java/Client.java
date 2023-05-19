@@ -1,5 +1,4 @@
 import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.util.Scanner;
 
 import com.zeroc.Ice.ObjectAdapter;
@@ -7,7 +6,6 @@ import com.zeroc.Ice.ObjectPrx;
 import com.zeroc.Ice.Util;
 
 import Demo.CallbackPrx;
-import Demo.ChatManagerPrx;
 
 public class Client
 {
