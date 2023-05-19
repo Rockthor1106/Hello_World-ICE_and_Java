@@ -12,6 +12,8 @@ public class ChatManagerImp implements Demo.ChatManager {
     // Semaphore mSemaphore = new Semaphore(1);
     private CallbackPrx callbackPrx;
 
+    private List<String> hosts = new ArrayList<>();
+
     ChatManagerImp() {
         messages = new ArrayList<>();
     }
@@ -37,6 +39,9 @@ public class ChatManagerImp implements Demo.ChatManager {
     public void sendMessage(String msg, Current current) {
         new Thread(() -> {
             String host = msg.split(":")[0]; //This line gets the hostname form the message sent by the client
+            
+            if (!hosts.contains(host)) {hosts.add(host);}
+
             int pos = 0;
             try {
                 pos = Integer.valueOf(msg.split(":")[1]);
