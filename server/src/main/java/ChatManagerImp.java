@@ -59,7 +59,6 @@ public class ChatManagerImp implements Demo.ChatManager {
             }
             else if (message.startsWith(sendTo)) {
                 //Here there is something particular: The message has two ":" so we need to send as parameter the part at index 2
-                System.out.println("este es el mensaje " + message);
                 sendMessageTo(msg.split(":")[2].trim(), host);
             }
             else if(message.startsWith(broadcast)) {
@@ -76,7 +75,7 @@ public class ChatManagerImp implements Demo.ChatManager {
                     System.out.println(host + ":" + fibonacci(i, host, current));
                 }
                 System.out.println("-------------------");
-                callbackPrx.printResultFibo(Long.toString(fibonacci(pos, host, current)));
+                sendFibonacciTo(Long.toString(fibonacci(pos, host, current)), host);
             }
             //----------------------------------------------------------------
         }).start();
@@ -107,10 +106,18 @@ public class ChatManagerImp implements Demo.ChatManager {
     public void sendMessageTo(String msg, String hostname) {
         for (Client client : clients) {
             if (client.getHostname().equals(hostname)) {
-                client.getCallbackPrx().printMessage(msg);
+                client.getCallbackPrx().printResultFibo(msg);
             }
-            else {
-                System.out.println("Client not found");
+        }
+    }
+
+    public void sendFibonacciTo(String msg, String hostname) {
+        System.out.println("Está buscando este client " + hostname);
+        System.out.println("host buscado " + hostname);
+        for (Client client : clients) {
+            System.out.println("client host: " + client.getHostname());
+            if (client.getHostname().equals(hostname)) {
+                client.getCallbackPrx().printMessage(msg);
             }
         }
     }
