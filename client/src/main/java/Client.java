@@ -42,6 +42,7 @@ public class Client
 
                     try {
                         chatManagerPrx.sendMessage(hostname + ":" + entry);
+                        sc.nextLine(); //Our program waits for an enter to continue
                     }catch (Exception e) {
                         System.out.println(e);
                     }

@@ -51,7 +51,7 @@ public class ChatManagerImp implements Demo.ChatManager {
                 toListHosts(callbackPrx);
             }
             else if (msg.split(":")[1].startsWith(sendTo)) {
-
+                
             }
             else if(msg.split(":")[1].startsWith(broadcast)) {
 
