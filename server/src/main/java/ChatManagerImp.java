@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 import com.zeroc.Ice.Current;
 
 import Demo.CallbackPrx;
+import model.Client;
 
 public class ChatManagerImp implements Demo.ChatManager {
 
@@ -12,16 +13,20 @@ public class ChatManagerImp implements Demo.ChatManager {
     // Semaphore mSemaphore = new Semaphore(1);
     private CallbackPrx callbackPrx;
 
-    private List<String> hosts = new ArrayList<>();
+    private List<String> hostnames;
+    private List<Client> clients;
+    
 
     ChatManagerImp() {
         messages = new ArrayList<>();
+        hostnames = new ArrayList<>();
+        clients = new ArrayList<>();
     }
 
+    //This method is to register a client in the server 
     @Override
-    public void subscribe(CallbackPrx callback, Current current) {
-        //System.out.println("subscribe");
-        this.callbackPrx = callback;
+    public void subscribe(String hostname, CallbackPrx callback, Current current) {
+        clients.add(new Client(hostname, callback));
     }
 
     @Override
@@ -40,21 +45,21 @@ public class ChatManagerImp implements Demo.ChatManager {
         new Thread(() -> {
             String host = msg.split(":")[0]; //This line gets the hostname form the message sent by the client
             
-            if (!hosts.contains(host)) {hosts.add(host);} //This line adds the client hostname to the list of hostnames
+            if (!hostnames.contains(host)) {hostnames.add(host);} //This line adds the client hostname to the list of hostnames
             
             //------------------Validations for the message------------------
             String listClients = "list clients";
-            String sendTo = "to X:";
+            String sendTo = "to";
             String broadcast = "BC";
 
             if (msg.split(":")[1].startsWith(listClients)) {
                 toListHosts(callbackPrx);
             }
             else if (msg.split(":")[1].startsWith(sendTo)) {
-                
+                sendMessageTo(msg, host);
             }
             else if(msg.split(":")[1].startsWith(broadcast)) {
-
+                broadcast(msg);
             }
             //----------------------------------------------------------------
             int pos = 0;
@@ -81,9 +86,26 @@ public class ChatManagerImp implements Demo.ChatManager {
 
     public void toListHosts(CallbackPrx callbackPrx) {
         String hostsList = "";
-        for (String host : hosts) {
+        for (String host : hostnames) {
             hostsList += host + "\n";
         }
         callbackPrx.printHostnamesList(hostsList);
+    }
+
+    public void broadcast(String msg) {
+        for (Client client : clients) {
+            client.getCallbackPrx().printMessage(msg);
+        }
+    }
+
+    public void sendMessageTo(String msg, String hostname) {
+        for (Client client : clients) {
+            if (client.getHostname().equals(hostname)) {
+                client.getCallbackPrx().printMessage(msg);
+            }
+            else {
+                System.out.println("Client not found");
+            }
+        }
     }
 }

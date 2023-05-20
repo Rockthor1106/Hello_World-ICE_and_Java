@@ -27,10 +27,10 @@ public class Client
                 adapter.activate();        
                 
                 CallbackPrx prx = CallbackPrx.uncheckedCast(objectPrx);
-                chatManagerPrx.subscribe(prx);
-
                 String hostname = Inet4Address.getLocalHost().getHostName();
 
+                chatManagerPrx.subscribe(hostname, prx);
+                
                 //------------Custom message from user---------------
                 while(true) {
                     System.out.println("Ingresa tu mensaje: ");

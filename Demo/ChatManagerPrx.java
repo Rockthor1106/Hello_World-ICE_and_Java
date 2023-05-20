@@ -17,37 +17,39 @@ package Demo;
 
 public interface ChatManagerPrx extends com.zeroc.Ice.ObjectPrx
 {
-    default void subscribe(CallbackPrx callback)
+    default void subscribe(String hostname, CallbackPrx callback)
     {
-        subscribe(callback, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        subscribe(hostname, callback, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default void subscribe(CallbackPrx callback, java.util.Map<String, String> context)
+    default void subscribe(String hostname, CallbackPrx callback, java.util.Map<String, String> context)
     {
-        _iceI_subscribeAsync(callback, context, true).waitForResponse();
+        _iceI_subscribeAsync(hostname, callback, context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<Void> subscribeAsync(CallbackPrx callback)
+    default java.util.concurrent.CompletableFuture<Void> subscribeAsync(String hostname, CallbackPrx callback)
     {
-        return _iceI_subscribeAsync(callback, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_subscribeAsync(hostname, callback, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<Void> subscribeAsync(CallbackPrx callback, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<Void> subscribeAsync(String hostname, CallbackPrx callback, java.util.Map<String, String> context)
     {
-        return _iceI_subscribeAsync(callback, context, false);
+        return _iceI_subscribeAsync(hostname, callback, context, false);
     }
 
     /**
      * @hidden
+     * @param iceP_hostname -
      * @param iceP_callback -
      * @param context -
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_subscribeAsync(CallbackPrx iceP_callback, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_subscribeAsync(String iceP_hostname, CallbackPrx iceP_callback, java.util.Map<String, String> context, boolean sync)
     {
         com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "subscribe", null, sync, null);
         f.invoke(false, context, null, ostr -> {
+                     ostr.writeString(iceP_hostname);
                      ostr.writeProxy(iceP_callback);
                  }, null);
         return f;

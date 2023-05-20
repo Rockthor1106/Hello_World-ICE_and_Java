@@ -17,7 +17,7 @@ package Demo;
 
 public interface ChatManager extends com.zeroc.Ice.Object
 {
-    void subscribe(CallbackPrx callback, com.zeroc.Ice.Current current);
+    void subscribe(String hostname, CallbackPrx callback, com.zeroc.Ice.Current current);
 
     String[] getState(com.zeroc.Ice.Current current);
 
@@ -60,10 +60,12 @@ public interface ChatManager extends com.zeroc.Ice.Object
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         com.zeroc.Ice.InputStream istr = inS.startReadParams();
+        String iceP_hostname;
         CallbackPrx iceP_callback;
+        iceP_hostname = istr.readString();
         iceP_callback = CallbackPrx.uncheckedCast(istr.readProxy());
         inS.endReadParams();
-        obj.subscribe(iceP_callback, current);
+        obj.subscribe(iceP_hostname, iceP_callback, current);
         return inS.setResult(inS.writeEmptyParams());
     }
 

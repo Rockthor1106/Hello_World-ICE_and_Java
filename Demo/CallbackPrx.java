@@ -122,6 +122,42 @@ public interface CallbackPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
+    default void printMessage(String message)
+    {
+        printMessage(message, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default void printMessage(String message, java.util.Map<String, String> context)
+    {
+        _iceI_printMessageAsync(message, context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> printMessageAsync(String message)
+    {
+        return _iceI_printMessageAsync(message, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> printMessageAsync(String message, java.util.Map<String, String> context)
+    {
+        return _iceI_printMessageAsync(message, context, false);
+    }
+
+    /**
+     * @hidden
+     * @param iceP_message -
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_printMessageAsync(String iceP_message, java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "printMessage", null, sync, null);
+        f.invoke(false, context, null, ostr -> {
+                     ostr.writeString(iceP_message);
+                 }, null);
+        return f;
+    }
+
     /**
      * Contacts the remote server to verify that the object implements this type.
      * Raises a local exception if a communication error occurs.

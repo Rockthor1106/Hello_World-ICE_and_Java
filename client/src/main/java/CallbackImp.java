@@ -34,4 +34,9 @@ public class CallbackImp implements Demo.Callback {
         System.out.println("*****Hosts***** \n" + hosts);
     }
 
+    @Override
+    public void printMessage(String message, Current current) {
+        System.out.println(message);
+    }
+
 }

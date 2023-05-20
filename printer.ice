@@ -8,11 +8,13 @@ module Demo
         void printResultFibo(string response);
 
         void printHostnamesList(string hosts);
+
+        void printMessage(string message);
     }
     
     interface ChatManager{
 
-        void subscribe(Callback* callback);
+        void subscribe(string hostname, Callback* callback);
 
         StringSeq getState();
 
