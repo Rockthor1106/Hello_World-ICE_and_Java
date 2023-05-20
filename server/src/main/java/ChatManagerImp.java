@@ -26,6 +26,7 @@ public class ChatManagerImp implements Demo.ChatManager {
     //This method is to register a client in the server 
     @Override
     public void subscribe(String hostname, CallbackPrx callback, Current current) {
+        this.callbackPrx = callback;
         clients.add(new Client(hostname, callback));
     }
 
