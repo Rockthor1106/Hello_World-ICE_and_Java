@@ -45,7 +45,8 @@ public class ChatManagerImp implements Demo.ChatManager {
     public void sendMessage(String msg, Current current) {
         new Thread(() -> {
             String host = msg.split(":")[0]; //This line gets the hostname form the message sent by the client
-            
+            String message = msg.split(":")[1]; //This line gets the message sent by the client
+
             if (!hostnames.contains(host)) {hostnames.add(host);} //This line adds the client hostname to the list of hostnames
             
             //------------------Validations for the message------------------
@@ -53,27 +54,31 @@ public class ChatManagerImp implements Demo.ChatManager {
             String sendTo = "to";
             String broadcast = "BC";
 
-            if (msg.split(":")[1].startsWith(listClients)) {
+            if (message.startsWith(listClients)) {
                 toListHosts(callbackPrx);
             }
-            else if (msg.split(":")[1].startsWith(sendTo)) {
-                sendMessageTo(msg, host);
+            else if (message.startsWith(sendTo)) {
+                //Here there is something particular: The message has two ":" so we need to send as parameter the part at index 2
+                System.out.println("este es el mensaje " + message);
+                sendMessageTo(msg.split(":")[2].trim(), host);
             }
-            else if(msg.split(":")[1].startsWith(broadcast)) {
-                broadcast(msg);
+            else if(message.startsWith(broadcast)) {
+                broadcast(host, message.substring(2, message.length()).trim());
+            }
+            else {
+                int pos = 0;
+                try {
+                    pos = Integer.valueOf(message);
+                } catch (Exception e) {
+                    System.out.println(msg); //When the message is not a number this prints the same line
+                }
+                for (int i = 1; i<=pos; i++) {
+                    System.out.println(host + ":" + fibonacci(i, host, current));
+                }
+                System.out.println("-------------------");
+                callbackPrx.printResultFibo(Long.toString(fibonacci(pos, host, current)));
             }
             //----------------------------------------------------------------
-            int pos = 0;
-            try {
-                pos = Integer.valueOf(msg.split(":")[1]);
-            } catch (Exception e) {
-                System.out.println(msg); //When the message is not a number this prints the same line
-            }
-            for (int i = 1; i<=pos; i++) {
-                System.out.println(host + ":" + fibonacci(i, host, current));
-            }
-            System.out.println("-------------------");
-            callbackPrx.printResultFibo(Long.toString(fibonacci(pos, host, current)));
         }).start();
     }
 
@@ -93,9 +98,9 @@ public class ChatManagerImp implements Demo.ChatManager {
         callbackPrx.printHostnamesList(hostsList);
     }
 
-    public void broadcast(String msg) {
+    public void broadcast(String hostCommunicator, String msg) {
         for (Client client : clients) {
-            client.getCallbackPrx().printMessage(msg);
+            client.getCallbackPrx().printMessage(hostCommunicator + ": " + msg);
         }
     }
 
