@@ -31,7 +31,7 @@ public class CallbackImp implements Demo.Callback {
     //This method is to print the list of hostnames from the server
     @Override
     public void printHostnamesList(String hosts, Current current) {
-        System.out.println("Hosts: " + hosts);
+        System.out.println("Hosts: \n" + hosts);
     }
 
 }

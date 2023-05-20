@@ -47,13 +47,13 @@ public class ChatManagerImp implements Demo.ChatManager {
             String sendTo = "to X:";
             String broadcast = "BC";
 
-            if (msg.startsWith(listClients)) {
+            if (msg.split(":")[1].startsWith(listClients)) {
                 toListHosts(callbackPrx);
             }
-            else if (msg.startsWith(sendTo)) {
+            else if (msg.split(":")[1].startsWith(sendTo)) {
 
             }
-            else if(msg.startsWith(broadcast)) {
+            else if(msg.split(":")[1].startsWith(broadcast)) {
 
             }
             //----------------------------------------------------------------
@@ -82,7 +82,7 @@ public class ChatManagerImp implements Demo.ChatManager {
     public void toListHosts(CallbackPrx callbackPrx) {
         String hostsList = "";
         for (String host : hosts) {
-            hostsList += host + ", ";
+            hostsList += host + "\n";
         }
         callbackPrx.printHostnamesList(hostsList);
     }
