@@ -25,6 +25,7 @@ public class ChatManagerImp implements Demo.ChatManager {
     }
 
     //This method is to register a client in the server 
+    //It is important to notice that the clientIdentifier comes from the remove address of the client which is unique for each client
     @Override
     public void subscribe(String hostname, CallbackPrx callback, Current current) {
         String clientIdentifier = current.con.toString().split(":")[2];
@@ -36,7 +37,6 @@ public class ChatManagerImp implements Demo.ChatManager {
     public String[] getState(Current current) {
         //System.out.println("GetState");
         String[] state = new String[messages.size()];
-
         for (int i = 0; i < state.length; i++) {
             state[i] = messages.get(i);
         }
@@ -48,6 +48,7 @@ public class ChatManagerImp implements Demo.ChatManager {
         new Thread(() -> {
             String host = msg.split(":")[0]; //This line gets the hostname form the message sent by the client
             String message = msg.split(":")[1]; //This line gets the message sent by the client
+            String clientIdentifier = current.con.toString().split(":")[2]; //This line gets the client identifier from the client who uses this method
 
             if (!hostnames.contains(host)) {hostnames.add(host);} //This line adds the client hostname to the list of hostnames
             
@@ -57,7 +58,7 @@ public class ChatManagerImp implements Demo.ChatManager {
             String broadcast = "BC";
 
             if (message.startsWith(listClients)) {
-                toListHosts(host);
+                toListHosts(host, clientIdentifier);
             }
             else if (message.startsWith(sendTo)) {
                 //Here there is something particular: The message has two ":" so we need to send as parameter the part at index 2
@@ -78,7 +79,7 @@ public class ChatManagerImp implements Demo.ChatManager {
                     System.out.println(host + ":" + fibonacci(i, host, current));
                 }
                 System.out.println("-------------------");
-                sendFibonacciTo(Long.toString(fibonacci(pos, host, current)), host);
+                sendFibonacciTo(Long.toString(fibonacci(pos, host, current)), host, clientIdentifier);
             }
             //----------------------------------------------------------------
         }).start();
@@ -92,14 +93,14 @@ public class ChatManagerImp implements Demo.ChatManager {
     }
     //-------------------------------------------------------------------
 
-    public void toListHosts(String hostname) {
+    public void toListHosts(String hostname, String clientIdentifier) {
         String hostsList = "";
         for (String host : hostnames) {
             hostsList += host + "\n";
         }
 
         for (Client client : clients) {
-            if (client.getHostname().equals(hostname)) {
+            if (client.getHostname().equals(hostname) && client.getClientIdentifier().equals(clientIdentifier)) {
                 client.getCallbackPrx().printHostnamesList(hostsList);
             }
         }
@@ -111,6 +112,8 @@ public class ChatManagerImp implements Demo.ChatManager {
         }
     }
 
+    //This methods allows the client to send a message to a specific client by its hostname
+    //It is important to notice that if there are more than one client with the same hostname, the message will be sent to all of them
     public void sendMessageTo(String msg, String hostname) {
         for (Client client : clients) {
             if (client.getHostname().equals(hostname)) {
@@ -119,9 +122,9 @@ public class ChatManagerImp implements Demo.ChatManager {
         }
     }
 
-    public void sendFibonacciTo(String msg, String hostname) {
+    public void sendFibonacciTo(String msg, String hostname, String clientIdentifier) {
         for (Client client : clients) {
-            if (client.getHostname().equals(hostname)) {
+            if (client.getHostname().equals(hostname) && client.getClientIdentifier().equals(clientIdentifier)) {
                 client.getCallbackPrx().printResultFibo(msg);
             }
         }
