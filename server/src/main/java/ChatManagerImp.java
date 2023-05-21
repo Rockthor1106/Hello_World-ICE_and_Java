@@ -34,7 +34,7 @@ public class ChatManagerImp implements Demo.ChatManager {
         clients.add(new Client(hostname, callback, clientIdentifier));
 
         //-----------------Help message for the client-----------------
-        String helpMsg = "***********Help secction**********\n" +
+        String helpMsg = "***********Help section**********\n" +
         "1. To send a message to a specific client use the following format: to <hostname>:<message>\n"+
         "2. To send a broadcast message use the following format: BC <message>\n"+
         "3. To get the list of hostnames use the following format: list clients\n"+
