@@ -38,5 +38,5 @@ public class CallbackImp implements Demo.Callback {
     public void printMessage(String message, Current current) {
         System.out.println(message);
     }
-
+    
 }

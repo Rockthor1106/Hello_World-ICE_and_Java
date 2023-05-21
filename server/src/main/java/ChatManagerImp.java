@@ -29,8 +29,22 @@ public class ChatManagerImp implements Demo.ChatManager {
     @Override
     public void subscribe(String hostname, CallbackPrx callback, Current current) {
         String clientIdentifier = current.con.toString().split(":")[2];
+        System.out.println("Client Identifier: " + clientIdentifier);
         this.callbackPrx = callback;
         clients.add(new Client(hostname, callback, clientIdentifier));
+
+        //-----------------Help message for the client-----------------
+        String helpMsg = "***********Help secction**********\n" +
+        "1. To send a message to a specific client use the following format: to <hostname>:<message>\n"+
+        "2. To send a broadcast message use the following format: BC <message>\n"+
+        "3. To get the list of hostnames use the following format: list clients\n"+
+        "4. To get the fibonacci serie use the following format: <number>\n"+
+        "5. To exit the program use the following format: exit\n"+
+        "***********************************";
+        callbackPrx.printMessage(helpMsg);
+
+
+        //-------------------------------------------------------------
     }
 
     @Override
@@ -47,41 +61,47 @@ public class ChatManagerImp implements Demo.ChatManager {
     public void sendMessage(String msg, Current current) {
         new Thread(() -> {
             String host = msg.split(":")[0]; //This line gets the hostname form the message sent by the client
-            String message = msg.split(":")[1]; //This line gets the message sent by the client
-            String clientIdentifier = current.con.toString().split(":")[2]; //This line gets the client identifier from the client who uses this method
 
-            if (!hostnames.contains(host)) {hostnames.add(host);} //This line adds the client hostname to the list of hostnames
-            
-            //------------------Validations for the message------------------
-            String listClients = "list clients";
-            String sendTo = "to";
-            String broadcast = "BC";
-
-            if (message.startsWith(listClients)) {
-                toListHosts(host, clientIdentifier);
-            }
-            else if (message.startsWith(sendTo)) {
-                //Here there is something particular: The message has two ":" so we need to send as parameter the part at index 2
-                String receiverHost = msg.split(":")[1].trim().substring(3, msg.split(":")[1].trim().length());
-                sendMessageTo(msg.split(":")[2].trim(), receiverHost);
-            }
-            else if(message.startsWith(broadcast)) {
-                broadcast(host, message.substring(2, message.length()).trim());
-            }
+            if (msg.split(":").length < 2)  {
+                sendMessageTo("Empty message", host);
+            } 
             else {
-                int pos = 0;
-                try {
-                    pos = Integer.valueOf(message);
-                } catch (Exception e) {
-                    System.out.println(msg); //When the message is not a number this prints the same line
+                String message = msg.split(":")[1]; //This line gets the message sent by the client
+                String clientIdentifier = current.con.toString().split(":")[2]; //This line gets the client identifier from the client who uses this method
+
+                if (!hostnames.contains(host)) {hostnames.add(host);} //This line adds the client hostname to the list of hostnames
+                
+                //------------------Validations for the message------------------
+                String listClients = "list clients";
+                String sendTo = "to";
+                String broadcast = "BC";
+
+                if (message.startsWith(listClients)) {
+                    toListHosts(host, clientIdentifier);
                 }
-                for (int i = 1; i<=pos; i++) {
-                    System.out.println(host + ":" + fibonacci(i, host, current));
+                else if (message.startsWith(sendTo)) {
+                    //Here there is something particular: The message has two ":" so we need to send as parameter the part at index 2
+                    String receiverHost = msg.split(":")[1].trim().substring(3, msg.split(":")[1].trim().length());
+                    sendMessageTo(msg.split(":")[2].trim(), receiverHost);
                 }
-                System.out.println("-------------------");
-                sendFibonacciTo(Long.toString(fibonacci(pos, host, current)), host, clientIdentifier);
+                else if(message.startsWith(broadcast)) {
+                    broadcast(host, message.substring(2, message.length()).trim());
+                }
+                else {
+                    int pos = 0;
+                    try {
+                        pos = Integer.valueOf(message);
+                    } catch (Exception e) {
+                        System.out.println(msg); //When the message is not a number this prints the same line
+                    }
+                    for (int i = 1; i<=pos; i++) {
+                        System.out.println(host + ":" + fibonacci(i, host, current));
+                    }
+                    System.out.println("-------------------");
+                    sendFibonacciTo(Long.toString(fibonacci(pos, host, current)), host, clientIdentifier);
+                }
+                //----------------------------------------------------------------
             }
-            //----------------------------------------------------------------
         }).start();
     }
 
@@ -129,4 +149,6 @@ public class ChatManagerImp implements Demo.ChatManager {
             }
         }
     }
+
+
 }
