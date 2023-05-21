@@ -30,10 +30,8 @@ public class ChatManagerImp implements Demo.ChatManager {
     @Override
     public void subscribe(String hostname, CallbackPrx callback, Current current) {
         String clientIdentifier = current.con.toString().split(":")[2];
-        System.out.println("Client Identifier: " + clientIdentifier);
         this.callbackPrx = callback;
         clients.add(new Client(hostname, callback, clientIdentifier));
-
         //-----------------Help message for the client-----------------
         String helpMsg = "***********Help section**********\n" +
         "1. To send a message to a specific client use the following format: to <hostname>:<message>\n"+
@@ -43,8 +41,6 @@ public class ChatManagerImp implements Demo.ChatManager {
         "5. To exit the program use the following format: exit\n"+
         "***********************************";
         callbackPrx.printMessage(helpMsg);
-
-
         //-------------------------------------------------------------
     }
 
@@ -120,7 +116,6 @@ public class ChatManagerImp implements Demo.ChatManager {
                 System.out.println(fibo[i - 1].add(fibo[i - 2]));
             }
             BigInteger requestedPos = fibo[pos];
-            System.out.println();
             return requestedPos.toString();
         }
 	    
