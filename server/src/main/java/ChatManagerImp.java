@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -94,11 +95,8 @@ public class ChatManagerImp implements Demo.ChatManager {
                     } catch (Exception e) {
                         System.out.println(msg); //When the message is not a number this prints the same line
                     }
-                    for (int i = 1; i<=pos; i++) {
-                        System.out.println(host + ":" + fibonacci(i, host, current));
-                    }
+                    sendFibonacciTo((fibonacci(pos, host, current)), host, clientIdentifier);
                     System.out.println("-------------------");
-                    sendFibonacciTo(Long.toString(fibonacci(pos, host, current)), host, clientIdentifier);
                 }
                 //----------------------------------------------------------------
             }
@@ -106,10 +104,26 @@ public class ChatManagerImp implements Demo.ChatManager {
     }
 
     //------------------------Fibonacci's Logic--------------------------
-    @Override
-    public long fibonacci(int pos, String host, Current current) {
-        if (pos < 2) return pos;
-        return fibonacci(pos - 1, host, current) + fibonacci(pos - 2, host, current);
+    public String fibonacci(int pos, String host, com.zeroc.Ice.Current current) {
+        if (pos < 0) {
+            return "Fibonacci starts at 1 position";
+        }
+        else {
+            BigInteger[] fibo = new BigInteger[pos + 1];
+            
+        
+            fibo[0] = BigInteger.ZERO;
+            fibo[1] = BigInteger.ONE;
+            for (int i = 2; i <= pos; i++) {
+                fibo[i] = fibo[i - 1].add(fibo[i - 2]);
+                
+                System.out.println(fibo[i - 1].add(fibo[i - 2]));
+            }
+            BigInteger requestedPos = fibo[pos];
+            System.out.println();
+            return requestedPos.toString();
+        }
+	    
     }
     //-------------------------------------------------------------------
 

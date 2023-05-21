@@ -128,48 +128,6 @@ public interface ChatManagerPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
-    default long fibonacci(int pos, String host)
-    {
-        return fibonacci(pos, host, com.zeroc.Ice.ObjectPrx.noExplicitContext);
-    }
-
-    default long fibonacci(int pos, String host, java.util.Map<String, String> context)
-    {
-        return _iceI_fibonacciAsync(pos, host, context, true).waitForResponse();
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.Long> fibonacciAsync(int pos, String host)
-    {
-        return _iceI_fibonacciAsync(pos, host, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.Long> fibonacciAsync(int pos, String host, java.util.Map<String, String> context)
-    {
-        return _iceI_fibonacciAsync(pos, host, context, false);
-    }
-
-    /**
-     * @hidden
-     * @param iceP_pos -
-     * @param iceP_host -
-     * @param context -
-     * @param sync -
-     * @return -
-     **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.Long> _iceI_fibonacciAsync(int iceP_pos, String iceP_host, java.util.Map<String, String> context, boolean sync)
-    {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.Long> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "fibonacci", null, sync, null);
-        f.invoke(true, context, null, ostr -> {
-                     ostr.writeInt(iceP_pos);
-                     ostr.writeString(iceP_host);
-                 }, istr -> {
-                     long ret;
-                     ret = istr.readLong();
-                     return ret;
-                 });
-        return f;
-    }
-
     /**
      * Contacts the remote server to verify that the object implements this type.
      * Raises a local exception if a communication error occurs.

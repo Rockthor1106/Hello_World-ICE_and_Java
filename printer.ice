@@ -19,8 +19,6 @@ module Demo
         StringSeq getState();
 
         void sendMessage(string msg);
-
-       	long fibonacci(int pos, string host);
     }
 }
 
